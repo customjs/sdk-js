@@ -19,12 +19,16 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "scripts": {
     "build": "tsc",
     "dev": "tsc -w",
     "test": "npm run build && node --test --import tsx test/client.test.ts test/html2pdf.test.ts test/markdown2pdf.test.ts test/screenshot.test.ts test/scraper.test.ts",
     "test:ci": "npm test",
-    "prepublishOnly": "npm run build && cp README_DIST.md dist/README.md"
+    "prepublishOnly": "npm run build"
   },
   "devDependencies": {
     "@types/node": "^25.0.1",
