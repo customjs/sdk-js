@@ -1,0 +1,31 @@
+{
+  "name": "@custom-js/sdhk-js",
+  "version": "0.1.0",
+  "description": "This is official TypeScript/JavaScript SDK for the CustomJS API.",
+  "keywords": [
+    "customjs",
+    "pdf",
+    "pdf-toolkit"
+  ],
+  "homepage": "https://www.customjs.space/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/customjs/sdk-js"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w",
+    "test": "npm run build && node --test --import tsx test/**/*.test.ts",
+    "test:ci": "npm test",
+    "prepublishOnly": "npm run build && cp README_DIST.md dist/README.md"
+  },
+  "devDependencies": {
+    "@types/node": "^25.0.1",
+    "dotenv": "^16.4.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.0"
+  }
+}

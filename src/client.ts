@@ -1,0 +1,33 @@
+export interface CustomJSRequestOptions {
+  endpoint: string;
+  input: Record<string, any>;
+}
+
+export class CustomJSClient {
+  constructor(
+    private apiKey: string,
+    private baseUrl = "https://e.customjs.io"
+  ) {}
+
+  async request(options: CustomJSRequestOptions): Promise<Buffer> {
+    const { endpoint, input } = options;
+
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+      "x-api-key": this.apiKey
+    };
+
+    const res = await fetch(`${this.baseUrl}${endpoint}`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({ input })
+    });
+
+    if (!res.ok) {
+      const errorText = await res.text();
+      throw new Error(`API Error: ${res.status} ${errorText}`);
+    }
+
+    return Buffer.from(await res.arrayBuffer());
+  }
+}
