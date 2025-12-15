@@ -19,7 +19,7 @@ export class CustomJSClient {
     };
 
     if (origin) {
-      headers["origin"] = origin;
+      headers["customjs-origin"] = origin;
     }
 
     const res = await fetch(`${this.baseUrl}${endpoint}`, {
