@@ -12,7 +12,8 @@ export class Markdown2PDF {
 
     return this.client.request({
       endpoint: "/markdown2pdf",
-      input: { markdown }
+      input: { markdown },
+      origin: "sdk/js/markdown2pdf"
     });
   }
 }

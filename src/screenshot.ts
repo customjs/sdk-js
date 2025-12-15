@@ -69,7 +69,8 @@ export class Screenshot {
 
     return this.client.request({
       endpoint: "/screenshot",
-      input
+      input,
+      origin: "sdk/js/screenshot"
     });
   }
 }

@@ -1,6 +1,7 @@
 export interface CustomJSRequestOptions {
   endpoint: string;
   input: Record<string, any>;
+  origin?: string;
 }
 
 export class CustomJSClient {
@@ -10,12 +11,16 @@ export class CustomJSClient {
   ) {}
 
   async request(options: CustomJSRequestOptions): Promise<Buffer> {
-    const { endpoint, input } = options;
+    const { endpoint, input, origin } = options;
 
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
       "x-api-key": this.apiKey
     };
+
+    if (origin) {
+      headers["origin"] = origin;
+    }
 
     const res = await fetch(`${this.baseUrl}${endpoint}`, {
       method: "POST",

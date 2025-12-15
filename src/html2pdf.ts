@@ -19,7 +19,8 @@ export class HTML2PDF {
 
     return this.client.request({
       endpoint: "/html2pdf",
-      input
+      input,
+      origin: "sdk/js/html2pdf"
     });
   }
 }

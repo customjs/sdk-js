@@ -52,7 +52,8 @@ export class Scraper {
 
     const buffer = await this.client.request({
       endpoint: "/scraper",
-      input: { url, commands }
+      input: { url, commands },
+      origin: "sdk/js/scraper"
     });
 
     return buffer.toString("utf-8");
