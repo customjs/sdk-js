@@ -1,11 +1,19 @@
 import { describe, it, before } from "node:test";
 import assert from "node:assert";
+import { mkdirSync, writeFileSync } from "node:fs";
+import path from "node:path";
 import { config } from "dotenv";
 import { CustomJSClient } from "../src/client.ts";
 import { Markdown2PDF } from "../src/markdown2pdf.ts";
 
 // Load environment variables
 config();
+
+function writeArtifact(filename: string, content: Buffer) {
+  const dir = path.resolve(process.cwd(), "tmp", "test-artifacts", "markdown2pdf");
+  mkdirSync(dir, { recursive: true });
+  writeFileSync(path.join(dir, filename), content);
+}
 
 // NOTE: Tests are currently skipped because the /markdown2pdf endpoint
 // is returning 500 errors. Enable these tests once the endpoint is deployed.
@@ -36,6 +44,8 @@ describe.skip("Markdown2PDF", () => {
       pdfBuffer.subarray(0, 4).equals(pdfSignature),
       "Should be a valid PDF file"
     );
+
+    writeArtifact("simple.pdf", pdfBuffer);
   });
 
   it("should convert Markdown with lists to PDF", async () => {
@@ -57,6 +67,8 @@ describe.skip("Markdown2PDF", () => {
 
     assert.ok(pdfBuffer instanceof Buffer, "Should return a Buffer");
     assert.ok(pdfBuffer.length > 0, "Buffer should not be empty");
+
+    writeArtifact("lists.pdf", pdfBuffer);
   });
 
   it("should convert Markdown with code blocks to PDF", async () => {
@@ -74,5 +86,7 @@ function hello() {
 
     assert.ok(pdfBuffer instanceof Buffer, "Should return a Buffer");
     assert.ok(pdfBuffer.length > 0, "Buffer should not be empty");
+
+    writeArtifact("code.pdf", pdfBuffer);
   });
 });

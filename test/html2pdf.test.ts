@@ -1,11 +1,19 @@
 import { describe, it, before } from "node:test";
 import assert from "node:assert";
+import { mkdirSync, writeFileSync } from "node:fs";
+import path from "node:path";
 import { config } from "dotenv";
 import { CustomJSClient } from "../src/client.ts";
 import { HTML2PDF } from "../src/html2pdf.ts";
 
 // Load environment variables
 config();
+
+function writeArtifact(filename: string, content: Buffer) {
+  const dir = path.resolve(process.cwd(), "tmp", "test-artifacts", "html2pdf");
+  mkdirSync(dir, { recursive: true });
+  writeFileSync(path.join(dir, filename), content);
+}
 
 describe("HTML2PDF", () => {
   let client: CustomJSClient;
@@ -34,6 +42,8 @@ describe("HTML2PDF", () => {
       pdfBuffer.subarray(0, 4).equals(pdfSignature),
       "Should be a valid PDF file"
     );
+
+    writeArtifact("simple.pdf", pdfBuffer);
   });
 
   it("should convert HTML with CSS to PDF", async () => {
@@ -57,6 +67,23 @@ describe("HTML2PDF", () => {
 
     assert.ok(pdfBuffer instanceof Buffer, "Should return a Buffer");
     assert.ok(pdfBuffer.length > 0, "Buffer should not be empty");
+
+    writeArtifact("css.pdf", pdfBuffer);
+  });
+
+  it("should convert HTML to PDF with custom page size", async () => {
+    const pdfBuffer = await html2pdf.convert({
+      html: "<h1>Custom page size</h1>",
+      config: {
+        pdfWidthMm: 150,
+        pdfHeightMm: 130
+      }
+    });
+
+    assert.ok(pdfBuffer instanceof Buffer, "Should return a Buffer");
+    assert.ok(pdfBuffer.length > 0, "Buffer should not be empty");
+
+    writeArtifact("custom-page-size.pdf", pdfBuffer);
   });
 
   it("should convert HTML with template data to PDF", async () => {
@@ -72,6 +99,8 @@ describe("HTML2PDF", () => {
 
     assert.ok(pdfBuffer instanceof Buffer, "Should return a Buffer");
     assert.ok(pdfBuffer.length > 0, "Buffer should not be empty");
+
+    writeArtifact("template.pdf", pdfBuffer);
   });
 
   it("should convert HTML with lists to PDF", async () => {
@@ -90,5 +119,7 @@ describe("HTML2PDF", () => {
 
     assert.ok(pdfBuffer instanceof Buffer, "Should return a Buffer");
     assert.ok(pdfBuffer.length > 0, "Buffer should not be empty");
+
+    writeArtifact("lists.pdf", pdfBuffer);
   });
 });

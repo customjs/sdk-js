@@ -1,5 +1,5 @@
 export { CustomJSClient, CustomJSRequestOptions } from "./client.js";
-export { HTML2PDF, HTML2PDFOptions } from "./html2pdf.js";
+export { HTML2PDF, HTML2PDFOptions, HTML2PDFConfig } from "./html2pdf.js";
 export { Markdown2PDF, Markdown2PDFOptions } from "./markdown2pdf.js";
 export { 
   Screenshot, 
