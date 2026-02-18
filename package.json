@@ -1,6 +1,6 @@
 {
   "name": "@custom-js/sdk-js",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "This is official TypeScript/JavaScript SDK for the CustomJS API.",
   "keywords": [
     "customjs",
