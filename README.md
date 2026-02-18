@@ -54,9 +54,15 @@ const html2pdf = new HTML2PDF(client);
 
 const pdf = await html2pdf.convert({
   html: "<h1>Hello {{ name }}</h1>",
-  data: { name: "World" }
+  data: { name: "World" },
+  config: {
+    pdfWidthMm: 210,
+    pdfHeightMm: 297
+  }
 });
 ```
+
+`config` is optional. When omitted, page size defaults to A4 (210x297mm).
 
 ### Markdown to PDF
 
